@@ -5,7 +5,8 @@ import express from 'express';
 import cors from 'cors';
 import logger from 'morgan';
 import path from 'path';
-const mongoose = require('mongoose');
+import compression from 'compression';
+import mongoose from 'mongoose';
 
 import Routes from './routes';
 import * as players from './players';
@@ -37,17 +38,24 @@ db.on('disconnected', function() {
   console.log('MongoDB disconnected! - Reconnect the database after 3s...');
   // Reconnect the database after 3s
   setTimeout(() => {
-    mongoose.connect(mongodbConnectionString, {
-      server: { auto_reconnect: true },
-    });
+    mongoose.connect(
+      mongodbConnectionString,
+      {
+        server: { auto_reconnect: true },
+      },
+    );
   }, 3000);
 });
-mongoose.connect(mongodbConnectionString, { server: { auto_reconnect: true } });
+mongoose.connect(
+  mongodbConnectionString,
+  { server: { auto_reconnect: true } },
+);
 
 const app = express();
 app.set('superSecret', 'iloveteamradio');
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(compression());
 app.use(
   bodyParser.urlencoded({
     extended: false,

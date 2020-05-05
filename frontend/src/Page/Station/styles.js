@@ -1,3 +1,5 @@
+import { isElectronInstance } from 'Util/electron';
+
 export default ({ breakpoints, palette, spacing, typography }) => ({
   logo: {
     height: 35,
@@ -25,7 +27,7 @@ export default ({ breakpoints, palette, spacing, typography }) => ({
   switcherContainer: {
     margin: 'auto',
     padding: '0 !important',
-    marginTop: 56,
+    marginTop: 56 + (isElectronInstance() ? 36 : 0),
     background: palette.lightGrey['500'],
     marginBottom: 20,
   },
@@ -125,5 +127,15 @@ export default ({ breakpoints, palette, spacing, typography }) => ({
     fontFamily: 'Lato',
     color: 'rgba(0,0,0,0.54)',
     textTransform: 'none',
+  },
+  chatContainer: {
+    position: 'fixed',
+    top: '50%',
+    right: 20,
+    width: '25%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    bottom: spacing.baseMargin,
+    zIndex: 99,
   },
 });

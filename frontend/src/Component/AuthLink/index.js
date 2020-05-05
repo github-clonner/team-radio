@@ -108,19 +108,16 @@ class AuthLink extends Component {
       <Fragment>
         {!user.isAuthenticated && (
           <Fragment>
-            <Link to="/auth/login" className={classes.navItem}>
-              Login
+            <Link to="/auth/login" className={classes.navLinkWrapper}>
+              <Typography className={classes.navItem}>Login</Typography>
             </Link>
-            <Link to="/auth/register" className={classes.navItem}>
-              Register
+            <Link to="/auth/register" className={classes.navLinkWrapper}>
+              <Typography className={classes.navItem}>Register</Typography>
             </Link>
           </Fragment>
         )}
         {user.isAuthenticated && (
           <div className={classes.menuItem}>
-              <div>
-                  <span className={classes.displayName}>Reputation: {user.data.reputation || 0}</span>
-              </div>
             <Link
               to={`/profile/${user.data.username}`}
               className={classes.menuItem}
@@ -134,22 +131,26 @@ class AuthLink extends Component {
                 }
                 alt="avatar"
               />
-              <div>
-                <span className={classes.displayName}>{user.data.name}</span>
-              </div>
             </Link>
             <div
               aria-owns={anchorEl ? 'simple-menu' : null}
               aria-haspopup="true"
               onClick={this._openMenu}
+              className={classes.userInfoContainer}
             >
+              <Typography
+                type="body1"
+                component="span"
+                className={classes.displayName}
+              >
+                {user.data.name} ({user.data.reputation || 0})
+              </Typography>
               <span>
                 <IconButton className={classes.dropdownIcon}>
                   <ArrowDropDownIcon />
                 </IconButton>
               </span>
             </div>
-
             <Popover
               anchorOrigin={{
                 vertical: 'bottom',
@@ -191,7 +192,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
   withNotification,
   withRouter,
 )(withStyles(styles)(AuthLink));

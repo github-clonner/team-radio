@@ -33,7 +33,9 @@ class HistoryItem extends Component {
     const {
       notification,
       addSong,
-      match: { params: { stationId } },
+      match: {
+        params: { stationId },
+      },
       user: { userId, username, name, avatar_url },
       url,
       title,
@@ -78,7 +80,7 @@ class HistoryItem extends Component {
           </Tooltip>
           <div className={classes.creator}>
             Added by
-            {creator === null ? (
+            {!creator ? (
               ' Unregistered User'
             ) : (
               <Tooltip placement={'bottom'} title={creator.name}>
@@ -133,6 +135,9 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   withStyles(styles),
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
   withNotification,
 )(HistoryItem);
